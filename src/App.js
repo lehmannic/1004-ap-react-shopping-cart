@@ -4,6 +4,7 @@ import data from './data';
 
 // Contexts
 import { ProductContext } from './contexts/ProductContext';
+import { CartContext } from './contexts/CartContext';
 
 // Components
 import Navigation from './components/Navigation';
@@ -20,23 +21,25 @@ function App() {
     setCart([...cart, item]);
   };
 
-  // const removeItem = (id) => {
-  // 	setCart(cart.filter(item => item.id !== id));
-  // }
+  const removeItem = (id) => {
+  	setCart(cart.filter(item => item.id !== id));
+  }
 
   return (
     <div className='App'>
       <ProductContext.Provider value={{ products, addItem }}>
-        <Navigation cart={cart} />
+        <CartContext.Provider value={{cart, removeItem}}>
+          <Navigation />
 
-        {/* Routes */}
-        <Route exact path='/'>
-          <Products />
-        </Route>
+          {/* Routes */}
+          <Route exact path='/'>
+            <Products />
+          </Route>
 
-        <Route path='/cart'>
-          <ShoppingCart cart={cart} />
-        </Route>
+          <Route path='/cart'>
+            <ShoppingCart />
+          </Route>
+        </CartContext.Provider>
       </ProductContext.Provider>
     </div>
   );
